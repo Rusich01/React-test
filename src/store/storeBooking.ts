@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 export interface Booking {
   id: number;
@@ -12,16 +13,21 @@ interface BookingStore {
   removeBooking: (r: number) => void;
 }
 
-export const useBookingStore = create<BookingStore>((set) => ({
-  bookings: [],
+export const useBookingStore = create<BookingStore>()(
+  persist(
+    (set) => ({
+      bookings: [],
 
-  addBooking: (booking) =>
-    set((state) => ({
-      bookings: [...state.bookings, booking],
-    })),
+      addBooking: (booking) =>
+        set((state) => ({
+          bookings: [...state.bookings, booking],
+        })),
 
-  removeBooking: (id) =>
-    set((state) => ({
-      bookings: state.bookings.filter((item) => item.id !== id),
-    })),
-}));
+      removeBooking: (id) =>
+        set((state) => ({
+          bookings: state.bookings.filter((item) => item.id !== id),
+        })),
+    }),
+    { name: "booking-storage" }
+  )
+);
