@@ -16,10 +16,11 @@ const BookingsPage = () => {
     });
   };
   //
-  const haendelForm = (e: any) => {
+  const handleForm = (e: any) => {
     e.preventDefault();
 
-    const formData = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
 
     const booking = {
@@ -31,24 +32,22 @@ const BookingsPage = () => {
       return alert("These dates are already booked!");
     }
     addBooking(booking);
+    form.reset();
   };
 
   return (
     <div className="flex w-[350px] m-12 mx-auto flex-col gap-2">
       <h1 className="text-[30px] font-semibold text-center">Booking Manager</h1>
       <div className=" flex justify-center  ">
-        <form
-          onSubmit={haendelForm}
-          className="flex gap-[15px] flex-col w-full"
-        >
+        <form onSubmit={handleForm} className="flex gap-[15px] flex-col w-full">
           <BookingForm
-            className={"border rounded p-2 w-full"}
+            className="w-full p-4 border border-gray-300 rounded-2xl text-gray-700 font-medium focus:outline-none focus:ring-2 focus:ring-green-400"
             type="date"
             name="startDate"
             id="startDate"
           />
           <BookingForm
-            className={"border rounded p-2 w-full"}
+            className="w-full p-4 border border-gray-300 rounded-2xl text-gray-700 font-medium focus:outline-none focus:ring-2 focus:ring-green-400"
             type="date"
             name="exitDate"
             id="exitDate"
@@ -57,7 +56,7 @@ const BookingsPage = () => {
           <Button
             text="Create booking"
             type="submit"
-            className="cursor-pointer bg-[oklch(0.79_0.2_165.4)] py-[5px] px-2.5 rounded-2xl"
+            className="cursor-pointer w-full py-4 bg-green-400 hover:bg-green-500 active:scale-95 transition rounded-full text-lg font-semibold text-black"
           />
         </form>
       </div>

@@ -7,22 +7,27 @@ const BookingItem = () => {
 
   return (
     <ul>
-      {bookings.map((data, index) => (
+      {bookings.map((booking) => (
         <li
-          key={data.id}
-          className={`flex border rounded p-2 items-center justify-between  ${
-            index >= 1 ? "border-t-transparent -mt-0.5" : ""
-          }`}
+          key={booking.id}
+          className="bg-white shadow-md rounded-2xl px-4 py-4 flex justify-between items-center border border-gray-200 hover:bg-[#d8d8d8] transition duration-300"
         >
-          <div className="flex gap-2">
-            <div>{data.startDate}</div>
-            &gt;
-            <div>{data.exitDate}</div>
+          <div className="text-gray-900 font-medium flex gap-1.5">
+            <span>
+              {booking.startDate} <span className="text-gray-400">→</span>{" "}
+              {booking.exitDate}
+            </span>
           </div>
+
           <div className="flex gap-4">
             <Button
-              onClick={() => removeBooking(data.id)}
-              className="cursor-pointer bg-[oklch(0.63_0.26_25.89)] p-0.5 rounded-[5px] text-[15px]"
+              className="cursor-pointer px-3 py-1 bg-yellow-300 hover:bg-yellow-400 text-black rounded-lg text-sm font-medium"
+              text="Edit"
+            />
+
+            <Button
+              onClick={() => removeBooking(booking.id)}
+              className="cursor-pointer px-3 py-1 bg-red-400 hover:bg-red-500 text-white rounded-lg text-sm font-medium"
               text="Del"
             />
           </div>
