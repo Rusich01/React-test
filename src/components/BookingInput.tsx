@@ -1,10 +1,24 @@
-const BookingForm = ({ type, id, text, className, name }: any) => {
+const BookingInput = ({
+  type,
+  id,
+  text,
+  className,
+  name,
+  defaultValue,
+}: any) => {
   return (
     <label htmlFor={id}>
       {text}
-      <input id={id} type={type} className={className} name={name} required />
+      <input
+        id={id}
+        type={type}
+        className={className}
+        name={name}
+        defaultValue={defaultValue}
+        required
+      />
     </label>
   );
 };
 
-export default BookingForm;
+export default BookingInput;
