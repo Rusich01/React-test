@@ -11,7 +11,7 @@ interface BookingStore {
   bookings: Booking[];
   addBooking: (booking: Booking) => void;
   removeBooking: (id: number) => void;
-  editBooking: (id: number) => void; // правильное имя, если ты хочешь передавать id
+  editBooking: (id: number, updatedData: Partial<Booking>) => void;
 }
 
 export const useBookingStore = create<BookingStore>()(
@@ -24,9 +24,11 @@ export const useBookingStore = create<BookingStore>()(
           bookings: [...state.bookings, booking],
         })),
 
-      editBooking: (id) =>
+      editBooking: (id, updatedData) =>
         set((state) => ({
-          bookings: state.bookings.filter((item) => item.id === id),
+          bookings: state.bookings.map((booking) =>
+            booking.id === id ? { ...booking, ...updatedData } : booking
+          ),
         })),
 
       removeBooking: (id) =>

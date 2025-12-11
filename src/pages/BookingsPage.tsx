@@ -1,13 +1,18 @@
-import BookingForm from "../components/BookingInput";
+import { useState } from "react";
+import BookingInput from "../components/BookingInput";
 import BookingItem from "../components/BookingItem";
 import Button from "../components/Button";
 import type { Booking } from "../store/storeBooking";
 import { useBookingStore } from "../store/storeBooking";
+import EditModalWindow from "../components/modalWindow/EditModalWindow";
 
 const BookingsPage = () => {
+  const [errorMessage, setErrorMessage] = useState(false);
+  const [isOpening, setIsOpening] = useState(false);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
   const addBooking = useBookingStore((state) => state.addBooking);
   const bookings = useBookingStore((state) => state.bookings);
-  //
+
   const validateBooking = (newBooking: Booking, existing: Booking[]) => {
     return existing.some((b) => {
       return (
@@ -16,12 +21,12 @@ const BookingsPage = () => {
     });
   };
   //
-  const handleForm = (e: any) => {
+  const handelForm = (e: any) => {
     e.preventDefault();
 
     const form = e.currentTarget;
     const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
+    const data = Object.fromEntries(formData);
 
     const booking = {
       id: Date.now(),
@@ -29,39 +34,68 @@ const BookingsPage = () => {
       exitDate: data.exitDate as string,
     };
     if (validateBooking(booking, bookings)) {
-      return alert("These dates are already booked!");
+      return setErrorMessage(true);
     }
     addBooking(booking);
+    setErrorMessage(false);
     form.reset();
   };
 
   return (
-    <div className="flex w-[350px] m-12 mx-auto flex-col gap-2">
-      <h1 className="text-[30px] font-semibold text-center">Booking Manager</h1>
-      <div className=" flex justify-center  ">
-        <form onSubmit={handleForm} className="flex gap-[15px] flex-col w-full">
-          <BookingForm
-            className="w-full p-4 border border-gray-300 rounded-2xl text-gray-700 font-medium focus:outline-none focus:ring-2 focus:ring-green-400"
-            type="date"
-            name="startDate"
-            id="startDate"
-          />
-          <BookingForm
-            className="w-full p-4 border border-gray-300 rounded-2xl text-gray-700 font-medium focus:outline-none focus:ring-2 focus:ring-green-400"
-            type="date"
-            name="exitDate"
-            id="exitDate"
-          />
-
-          <Button
-            text="Create booking"
-            type="submit"
-            className="cursor-pointer w-full py-4 bg-green-400 hover:bg-green-500 active:scale-95 transition rounded-full text-lg font-semibold text-black"
-          />
-        </form>
+    <>
+      <div
+        className={`${
+          isOpening
+            ? "flex w-[350px] m-12 mx-auto flex-col gap-2 relative opacity-15"
+            : "flex w-[350px] m-12 mx-auto flex-col gap-2 relative opacity-100"
+        } `}
+      >
+        <h1 className="text-[30px] font-semibold text-center">
+          Booking Manager
+        </h1>
+        <div className=" flex justify-center">
+          <form
+            onSubmit={handelForm}
+            className="flex gap-[15px] flex-col w-full "
+          >
+            <BookingInput
+              className="w-full p-4 border border-gray-300 rounded-2xl text-gray-700 font-medium focus:outline-none focus:ring-2 focus:ring-green-400"
+              type="date"
+              name="startDate"
+              id="startDate"
+            />
+            <BookingInput
+              className="w-full p-4 border border-gray-300 rounded-2xl text-gray-700 font-medium focus:outline-none focus:ring-2 focus:ring-green-400"
+              type="date"
+              name="exitDate"
+              id="exitDate"
+            />
+            {errorMessage && (
+              <span className="text-center text-red-500 text-[15px] font-bold animate-pulse ">
+                These dates are already booked!
+              </span>
+            )}
+            <Button
+              text="Create booking"
+              type="submit"
+              className="cursor-pointer w-full py-4 bg-green-400 hover:bg-green-500 active:scale-95 transition rounded-full text-lg font-semibold text-black"
+            />
+          </form>
+        </div>
+        <BookingItem
+          setIsOpening={setIsOpening}
+          setSelectedId={setSelectedId}
+        />
       </div>
-      <BookingItem />
-    </div>
+      <div className={`${isOpening ? "opacity-100" : "opacity-0"}`}>
+        {isOpening && (
+          <EditModalWindow
+            setIsOpening={setIsOpening}
+            selectedId={selectedId}
+          />
+        )}
+      </div>
+    </>
   );
 };
 
