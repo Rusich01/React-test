@@ -20,7 +20,7 @@ const BookingsPage = () => {
       );
     });
   };
-  //
+
   const handelForm = (e: any) => {
     e.preventDefault();
 
@@ -36,6 +36,7 @@ const BookingsPage = () => {
     if (validateBooking(booking, bookings)) {
       return setErrorMessage(true);
     }
+
     addBooking(booking);
     setErrorMessage(false);
     form.reset();
@@ -71,7 +72,7 @@ const BookingsPage = () => {
               id="exitDate"
             />
             {errorMessage && (
-              <span className="text-center text-red-500 text-[15px] font-bold animate-pulse ">
+              <span className="text-center text-red-500 text-[15px] font-bold animate-pulse">
                 These dates are already booked!
               </span>
             )}
@@ -92,6 +93,8 @@ const BookingsPage = () => {
           <EditModalWindow
             setIsOpening={setIsOpening}
             selectedId={selectedId}
+            setErrorMessage={setErrorMessage}
+            errorMessage={errorMessage}
           />
         )}
       </div>

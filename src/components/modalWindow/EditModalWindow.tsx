@@ -1,16 +1,32 @@
 import { useEffect, useRef } from "react";
 import BookingInput from "../BookingInput";
 import Button from "../Button";
-import { useBookingStore } from "../../store/storeBooking";
+import { useBookingStore, type Booking } from "../../store/storeBooking";
 
-const EditModalWindow = ({ setIsOpening, selectedId }: any) => {
+const EditModalWindow = ({
+  setIsOpening,
+  selectedId,
+  errorMessage,
+  setErrorMessage,
+}: any) => {
   const formRef = useRef<HTMLFormElement>(null);
+  const bookings = useBookingStore((state) => state.bookings);
 
   const editBooking = useBookingStore((s) => s.editBooking);
 
   const booking = useBookingStore((s) => {
     return s.bookings.find((b) => b.id === selectedId);
   });
+
+  const validateBooking = (newBooking: Booking, existing: Booking[]) => {
+    return existing.some((b) => {
+      if (b.id === newBooking.id) return false;
+
+      return (
+        newBooking.startDate < b.exitDate && newBooking.exitDate > b.startDate
+      );
+    });
+  };
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -28,10 +44,26 @@ const EditModalWindow = ({ setIsOpening, selectedId }: any) => {
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries());
 
+    const newBooking: Booking = {
+      id: selectedId,
+      startDate: data.startDate as string,
+      exitDate: data.exitDate as string,
+    };
+
+    if (newBooking.startDate >= newBooking.exitDate) {
+      setErrorMessage(true);
+      return;
+    }
+
+    if (validateBooking(newBooking, bookings)) {
+      setErrorMessage(true);
+      return;
+    }
     editBooking(selectedId, data);
+    setErrorMessage(false);
     setIsOpening(false);
   };
-  console.log(booking);
+
   return (
     <div
       className="absolute w-[400px]  inset-0
@@ -67,6 +99,11 @@ const EditModalWindow = ({ setIsOpening, selectedId }: any) => {
             id="exitDate"
             defaultValue={booking?.exitDate}
           />
+          {errorMessage && (
+            <p className="text-center text-red-500 text-[15px] font-bold animate-pulse">
+              This date is not available.
+            </p>
+          )}
           <Button
             text="Edit booking"
             type="submit"
