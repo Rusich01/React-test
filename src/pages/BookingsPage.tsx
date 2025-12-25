@@ -2,9 +2,9 @@ import { useState } from "react";
 import BookingInput from "../components/BookingInput";
 import BookingItem from "../components/BookingItem";
 import Button from "../components/Button";
-import type { Booking } from "../store/storeBooking";
 import { useBookingStore } from "../store/storeBooking";
-import EditModalWindow from "../components/modalWindow/EditModalWindow";
+import ModalWindow from "../components/modalWindow/ModalWindow";
+import type { Booking } from "../types/type.modalWindow";
 
 const BookingsPage = () => {
   const [errorMessage, setErrorMessage] = useState(false);
@@ -21,7 +21,7 @@ const BookingsPage = () => {
     });
   };
 
-  const handelForm = (e: any) => {
+  const handelForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const form = e.currentTarget;
@@ -65,17 +65,20 @@ const BookingsPage = () => {
               name="startDate"
               id="startDate"
             />
+
             <BookingInput
               className="w-full p-4 border border-gray-300 rounded-2xl text-gray-700 font-medium focus:outline-none focus:ring-2 focus:ring-green-400"
               type="date"
               name="exitDate"
               id="exitDate"
             />
+
             {errorMessage && (
               <span className="text-center text-red-500 text-[15px] font-bold animate-pulse">
                 These dates are already booked!
               </span>
             )}
+
             <Button
               text="Create booking"
               type="submit"
@@ -83,6 +86,7 @@ const BookingsPage = () => {
             />
           </form>
         </div>
+
         <BookingItem
           setIsOpening={setIsOpening}
           setSelectedId={setSelectedId}
@@ -90,7 +94,7 @@ const BookingsPage = () => {
       </div>
       <div className={`${isOpening ? "opacity-100" : "opacity-0"}`}>
         {isOpening && (
-          <EditModalWindow
+          <ModalWindow
             setIsOpening={setIsOpening}
             selectedId={selectedId}
             setErrorMessage={setErrorMessage}
