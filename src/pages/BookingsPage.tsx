@@ -9,7 +9,7 @@ import type { Booking } from "../types/type.modalWindow";
 const BookingsPage = () => {
   const [errorMessage, setErrorMessage] = useState(false);
   const [isOpening, setIsOpening] = useState(false);
-  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const addBooking = useBookingStore((state) => state.addBooking);
   const bookings = useBookingStore((state) => state.bookings);
 
@@ -29,7 +29,7 @@ const BookingsPage = () => {
     const data = Object.fromEntries(formData);
 
     const booking = {
-      id: Date.now(),
+      id: Date.now().toString(),
       startDate: data.startDate as string,
       exitDate: data.exitDate as string,
     };
