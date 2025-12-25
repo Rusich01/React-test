@@ -36,6 +36,9 @@ const BookingsPage = () => {
     if (validateBooking(booking, bookings)) {
       return setErrorMessage(true);
     }
+    if (booking.startDate > booking.exitDate) {
+      return setErrorMessage(true);
+    }
 
     addBooking(booking);
     setErrorMessage(false);
