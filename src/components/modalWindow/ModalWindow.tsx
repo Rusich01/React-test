@@ -1,68 +1,19 @@
-import { useEffect, useRef } from "react";
 import BookingInput from "../BookingInput";
 import Button from "../Button";
-import { useBookingStore, type Booking } from "../../store/storeBooking";
+import { useModalWindow } from "../../hooks/useModal";
+import type { propsWindowModal } from "../../type/typeBooking";
 
-const EditModalWindow = ({
-  setIsOpening,
+const ModalWindow = ({
   selectedId,
   errorMessage,
+  setIsOpening,
   setErrorMessage,
-}: any) => {
-  const formRef = useRef<HTMLFormElement>(null);
-  const bookings = useBookingStore((state) => state.bookings);
-
-  const editBooking = useBookingStore((s) => s.editBooking);
-
-  const booking = useBookingStore((s) => {
-    return s.bookings.find((b) => b.id === selectedId);
+}: propsWindowModal) => {
+  const { formRef, booking, handleChange } = useModalWindow({
+    selectedId,
+    setIsOpening,
+    setErrorMessage,
   });
-
-  const validateBooking = (newBooking: Booking, existing: Booking[]) => {
-    return existing.some((b) => {
-      if (b.id === newBooking.id) return false;
-
-      return (
-        newBooking.startDate < b.exitDate && newBooking.exitDate > b.startDate
-      );
-    });
-  };
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (!formRef.current?.contains(e.target as Node)) {
-        setIsOpening(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [setIsOpening]);
-
-  const handleChange = (e: any) => {
-    e.preventDefault();
-
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData.entries());
-
-    const newBooking: Booking = {
-      id: selectedId,
-      startDate: data.startDate as string,
-      exitDate: data.exitDate as string,
-    };
-
-    if (newBooking.startDate >= newBooking.exitDate) {
-      setErrorMessage(true);
-      return;
-    }
-
-    if (validateBooking(newBooking, bookings)) {
-      setErrorMessage(true);
-      return;
-    }
-    editBooking(selectedId, data);
-    setErrorMessage(false);
-    setIsOpening(false);
-  };
 
   return (
     <div
@@ -89,6 +40,7 @@ const EditModalWindow = ({
             id="startDate"
             defaultValue={booking?.startDate}
           />
+
           <BookingInput
             className="w-full p-4 rounded-2xl border border-gray-300 
          bg-white text-gray-700 font-medium
@@ -104,6 +56,7 @@ const EditModalWindow = ({
               This date is not available.
             </p>
           )}
+
           <Button
             text="Edit booking"
             type="submit"
@@ -115,4 +68,4 @@ const EditModalWindow = ({
   );
 };
 
-export default EditModalWindow;
+export default ModalWindow;
