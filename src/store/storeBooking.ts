@@ -1,18 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-
-export interface Booking {
-  id: number;
-  startDate: string;
-  exitDate: string;
-}
-
-interface BookingStore {
-  bookings: Booking[];
-  addBooking: (booking: Booking) => void;
-  removeBooking: (id: number) => void;
-  editBooking: (id: number, updatedData: Partial<Booking>) => void;
-}
+import type { BookingStore } from "../type/typeBooking";
 
 export const useBookingStore = create<BookingStore>()(
   persist(

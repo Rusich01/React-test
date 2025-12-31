@@ -1,11 +1,5 @@
 import BookingsPage from "./pages/BookingsPage";
 
-function App() {
-  return (
-    <>
-      <BookingsPage />
-    </>
-  );
-}
+const App = () => <BookingsPage />;
 
 export default App;

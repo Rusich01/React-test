@@ -1,3 +1,5 @@
+import type { BookingInputProps } from "../type/typeBooking";
+
 const BookingInput = ({
   type,
   id,
@@ -5,7 +7,7 @@ const BookingInput = ({
   className,
   name,
   defaultValue,
-}: any) => {
+}: BookingInputProps) => {
   return (
     <label htmlFor={id}>
       {text}
