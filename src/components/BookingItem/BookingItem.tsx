@@ -1,6 +1,6 @@
-import { useBookingStore } from "../store/storeBooking";
-import type { BookingItemProps } from "../type/typeBooking";
-import Button from "./Button";
+import Button from "../BookingButton/Button";
+import type { BookingItemProps } from "../../type/typeBooking";
+import { useBookingStore } from "../../store/storeBooking";
 
 const BookingItem = ({ setIsOpening, setSelectedId }: BookingItemProps) => {
   const removeBooking = useBookingStore((state) => state.removeBooking);

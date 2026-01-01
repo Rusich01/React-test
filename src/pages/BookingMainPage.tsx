@@ -1,10 +1,10 @@
 import { useState } from "react";
-import BookingInput from "../components/BookingInput";
-import BookingItem from "../components/BookingItem";
-import Button from "../components/Button";
 import { useBookingStore } from "../store/storeBooking";
 import ModalWindow from "../components/modalWindow/ModalWindow";
 import type { Booking } from "../type/typeBooking";
+import BookingInput from "../components/BookingInput/BookingInput";
+import Button from "../components/BookingButton/Button";
+import BookingItem from "../components/BookingItem/BookingItem";
 
 const BookingsPage = () => {
   const [errorMessage, setErrorMessage] = useState(false);
