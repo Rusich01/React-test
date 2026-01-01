@@ -1,0 +1,26 @@
+<?xml version="1.0"?><svg width="640" height="480" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <title>Booking</title>
+ <defs>
+  <linearGradient id="linearGradient1702">
+   <stop stop-color="#ffffff" stop-opacity="0.690722" offset="0" id="stop1703"/>
+   <stop stop-color="#ffffff" stop-opacity="0" offset="1" id="stop1704"/>
+  </linearGradient>
+  <linearGradient id="linearGradient1697">
+   <stop stop-color="#0e56db" offset="0" id="stop1698"/>
+   <stop stop-color="#071176" offset="1" id="stop1699"/>
+  </linearGradient>
+  <linearGradient y2="0.9625" y1="0.9625" xlink:href="#linearGradient1697" x2="0.434782" x1="0.434782" id="linearGradient1076"/>
+  <linearGradient y2="0.077481" y1="0.077481" xlink:href="#linearGradient1697" x2="0.491802" x1="0.491802" id="linearGradient1077"/>
+  <linearGradient y2="0.422835" y1="0.422835" xlink:href="#linearGradient1702" x2="0.119235" x1="0.117003" id="linearGradient1078" gradientTransform="matrix(1.553900,0.000000,0.000000,0.643542,-1.017928,2.842171e-14)"/>
+ </defs>
+ <g>
+  <title>Layer 1</title>
+  <g id="layer1">
+   <path fill="url(#linearGradient1076)" fill-rule="nonzero" stroke="url(#linearGradient1077)" stroke-width="1.364453" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="4" stroke-dashoffset="0" id="path1070" d="m393.368164,203.390503a190.403656,190.403656 0 1 1-380.807341,0a190.403656,190.403656 0 1 1380.807341,0z"/>
+   <path opacity="0.9" fill="url(#linearGradient1078)" fill-rule="evenodd" stroke-width="0.25000000pt" id="path1713" d="m341.278168,153.23671c44.367218,-0.966782 -12.400116,-123.152863 -135.680984,-123.802773c-134.561523,-0.687119 -162.095947,110.961357 -140.719452,112.997215c0,0 36.864166,5.062607 71.939575,14.856079c56.472656,15.930817 125.549149,-13.069244 152.768723,-17.2836c30.342529,-4.697876 47.373444,15.392426 51.692139,13.233078z"/>
+  </g>
+  <text xml:space="preserve" text-anchor="middle" font-family="serif" font-size="24" id="svg_2" y="175" x="135" stroke-width="0" stroke="#000000" fill="#000000"/>
+  <text xml:space="preserve" text-anchor="middle" font-family="serif" font-size="24" id="svg_3" y="198" x="103" stroke-width="0" stroke="#000000" fill="#000000"/>
+  <text xml:space="preserve" text-anchor="middle" font-family="Serif" font-size="92" id="svg_4" y="231" x="201" stroke-width="0" stroke="#000000" fill="#ffffff">Booking</text>
+ </g>
+</svg>

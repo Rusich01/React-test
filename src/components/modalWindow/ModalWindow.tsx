@@ -1,5 +1,5 @@
-import BookingInput from "../BookingInput";
-import Button from "../Button";
+import BookingInput from "../BookingInput/BookingInput";
+import Button from "../BookingButton/Button";
 import { useModalWindow } from "../../hooks/useModal";
 import type { propsWindowModal } from "../../type/typeBooking";
 

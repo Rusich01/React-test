@@ -1,5 +1,5 @@
-import BookingsPage from "./pages/BookingsPage";
+import BookingMainPage from "./pages/BookingMainPage";
 
-const App = () => <BookingsPage />;
+const App = () => <BookingMainPage />;
 
 export default App;

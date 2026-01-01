@@ -1,4 +1,4 @@
-import type { BookingInputProps } from "../type/typeBooking";
+import type { BookingInputProps } from "../../type/typeBooking";
 
 const BookingInput = ({
   type,
