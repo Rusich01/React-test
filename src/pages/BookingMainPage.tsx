@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useBookingStore } from "../store/storeBooking";
 import ModalWindow from "../components/modalWindow/ModalWindow";
-import type { Booking } from "../type/typeBooking";
 import BookingInput from "../components/BookingInput/BookingInput";
 import Button from "../components/BookingButton/Button";
 import BookingItem from "../components/BookingItem/BookingItem";
+import { validateBooking } from "../function/validationForm";
 
 const BookingsPage = () => {
   const [errorMessage, setErrorMessage] = useState(false);
@@ -12,14 +12,6 @@ const BookingsPage = () => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const addBooking = useBookingStore((state) => state.addBooking);
   const bookings = useBookingStore((state) => state.bookings);
-
-  const validateBooking = (newBooking: Booking, existing: Booking[]) => {
-    return existing.some((b) => {
-      return (
-        newBooking.startDate <= b.exitDate && newBooking.exitDate >= b.startDate
-      );
-    });
-  };
 
   const handelForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

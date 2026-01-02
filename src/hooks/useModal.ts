@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import type { Booking, propsWindowModal } from "../type/typeBooking";
 import { useBookingStore } from "../store/storeBooking";
+import { validateBooking } from "../function/validationForm";
 
 export const useModalWindow = ({
   selectedId,
@@ -15,16 +16,6 @@ export const useModalWindow = ({
   const booking = useBookingStore((s) => {
     return s.bookings.find((b) => b.id === selectedId);
   });
-
-  const validateBooking = (newBooking: Booking, existing: Booking[]) => {
-    return existing.some((b) => {
-      if (b.id === newBooking.id) return false;
-
-      return (
-        newBooking.startDate < b.exitDate && newBooking.exitDate > b.startDate
-      );
-    });
-  };
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
