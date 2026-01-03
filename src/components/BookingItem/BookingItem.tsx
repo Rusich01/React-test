@@ -1,10 +1,13 @@
 import Button from "../BookingButton/Button";
-import type { BookingItemProps } from "../../type/typeBooking";
 import { useBookingStore } from "../../store/storeBooking";
+import type { Dispatch, SetStateAction } from "react";
 
-const BookingItem = ({ setIsOpening, setSelectedId }: BookingItemProps) => {
-  const removeBooking = useBookingStore((state) => state.removeBooking);
-  const bookings = useBookingStore((state) => state.bookings);
+type BookingItemProps = {
+  setSelectedId: Dispatch<SetStateAction<string | null>>;
+};
+
+const BookingItem = ({ setSelectedId }: BookingItemProps) => {
+  const { bookings, removeBooking, openModal } = useBookingStore();
 
   return (
     <ul>
@@ -22,12 +25,13 @@ const BookingItem = ({ setIsOpening, setSelectedId }: BookingItemProps) => {
           <div className="flex gap-4">
             <Button
               onClick={() => {
-                setIsOpening(true);
+                openModal();
                 setSelectedId(booking.id);
               }}
               className="cursor-pointer px-3 py-1 bg-yellow-300 hover:bg-yellow-400 text-black rounded-lg text-sm font-medium"
               text="Edit"
             />
+
             <Button
               onClick={() => removeBooking(booking.id)}
               className="cursor-pointer px-3 py-1 bg-red-400 hover:bg-red-500 text-white rounded-lg text-sm font-medium"

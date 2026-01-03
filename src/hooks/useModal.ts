@@ -1,31 +1,28 @@
 import { useEffect, useRef } from "react";
 import type { Booking, propsWindowModal } from "../type/typeBooking";
 import { useBookingStore } from "../store/storeBooking";
-import { validateBooking } from "../function/validationForm";
+import { validateBooking } from "../functions/validationForm";
 
-export const useModalWindow = ({
-  selectedId,
-  setIsOpening,
-  setErrorMessage,
-}: propsWindowModal) => {
+export const useModalWindow = ({ selectedId }: propsWindowModal) => {
   const formRef = useRef<HTMLFormElement>(null);
-  const bookings = useBookingStore((state) => state.bookings);
+  const { bookings, closeModal, trueError, falseError } = useBookingStore();
 
   const editBooking = useBookingStore((s) => s.editBooking);
 
-  const booking = useBookingStore((s) => {
-    return s.bookings.find((b) => b.id === selectedId);
-  });
+  const booking = useBookingStore((s) =>
+    s.bookings.find((b) => b.id === selectedId)
+  );
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (!formRef.current?.contains(e.target as Node)) {
-        setIsOpening(false);
+        closeModal();
       }
     };
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [setIsOpening]);
+  }, [closeModal]);
 
   const handleChange = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,17 +37,17 @@ export const useModalWindow = ({
     };
 
     if (newBooking.startDate >= newBooking.exitDate) {
-      setErrorMessage(true);
+      trueError();
       return;
     }
 
     if (validateBooking(newBooking, bookings)) {
-      setErrorMessage(true);
+      trueError();
       return;
     }
-    editBooking(selectedId, data);
-    setErrorMessage(false);
-    setIsOpening(false);
+    editBooking(selectedId, newBooking);
+    falseError();
+    closeModal();
   };
   return {
     formRef,

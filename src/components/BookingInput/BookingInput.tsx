@@ -1,4 +1,8 @@
-import type { BookingInputProps } from "../../type/typeBooking";
+import type { InputHTMLAttributes } from "react";
+
+type BookingInputProps = {
+  text?: string;
+} & InputHTMLAttributes<HTMLInputElement>;
 
 const BookingInput = ({
   type,
