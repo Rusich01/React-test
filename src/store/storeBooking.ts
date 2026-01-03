@@ -23,8 +23,20 @@ export const useBookingStore = create<BookingStore>()(
         set((state) => ({
           bookings: state.bookings.filter((item) => item.id !== id),
         })),
-    }),
 
-    { name: "booking-storage" }
+      isOpened: false,
+      openModal: () => set({ isOpened: true }),
+      closeModal: () => set({ isOpened: false }),
+
+      errorMessage: false,
+      trueError: () => set({ errorMessage: true }),
+      falseError: () => set({ errorMessage: false }),
+    }),
+    {
+      name: "booking-storage",
+      partialize: (state) => ({
+        bookings: state.bookings,
+      }),
+    }
   )
 );

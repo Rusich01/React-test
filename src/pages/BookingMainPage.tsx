@@ -4,14 +4,18 @@ import ModalWindow from "../components/modalWindow/ModalWindow";
 import BookingInput from "../components/BookingInput/BookingInput";
 import Button from "../components/BookingButton/Button";
 import BookingItem from "../components/BookingItem/BookingItem";
-import { validateBooking } from "../function/validationForm";
+import { validateBooking } from "../functions/validationForm";
 
 const BookingsPage = () => {
-  const [errorMessage, setErrorMessage] = useState(false);
-  const [isOpening, setIsOpening] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const addBooking = useBookingStore((state) => state.addBooking);
-  const bookings = useBookingStore((state) => state.bookings);
+  const {
+    bookings,
+    addBooking,
+    isOpened,
+    trueError,
+    falseError,
+    errorMessage,
+  } = useBookingStore();
 
   const handelForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,27 +29,28 @@ const BookingsPage = () => {
       startDate: data.startDate as string,
       exitDate: data.exitDate as string,
     };
+
     if (validateBooking(booking, bookings)) {
-      return setErrorMessage(true);
+      return trueError();
     }
     if (booking.startDate > booking.exitDate) {
-      return setErrorMessage(true);
+      return trueError();
     }
 
     addBooking(booking);
-    setErrorMessage(false);
+    falseError();
     form.reset();
   };
 
+  const styleModalWindow = `${
+    isOpened
+      ? "flex w-[350px] m-12 mx-auto flex-col gap-2 relative opacity-15"
+      : "flex w-[350px] m-12 mx-auto flex-col gap-2 relative opacity-100"
+  } `;
+
   return (
     <>
-      <div
-        className={`${
-          isOpening
-            ? "flex w-[350px] m-12 mx-auto flex-col gap-2 relative opacity-15"
-            : "flex w-[350px] m-12 mx-auto flex-col gap-2 relative opacity-100"
-        } `}
-      >
+      <div className={styleModalWindow}>
         <h1 className="text-[30px] font-semibold text-center">
           Booking Manager
         </h1>
@@ -82,20 +87,10 @@ const BookingsPage = () => {
           </form>
         </div>
 
-        <BookingItem
-          setIsOpening={setIsOpening}
-          setSelectedId={setSelectedId}
-        />
+        <BookingItem setSelectedId={setSelectedId} />
       </div>
-      <div className={`${isOpening ? "opacity-100" : "opacity-0"}`}>
-        {isOpening && (
-          <ModalWindow
-            setIsOpening={setIsOpening}
-            selectedId={selectedId!}
-            setErrorMessage={setErrorMessage}
-            errorMessage={errorMessage}
-          />
-        )}
+      <div className={`${isOpened ? "opacity-100" : "opacity-0"}`}>
+        {isOpened && <ModalWindow selectedId={selectedId!} />}
       </div>
     </>
   );

@@ -2,18 +2,13 @@ import BookingInput from "../BookingInput/BookingInput";
 import Button from "../BookingButton/Button";
 import { useModalWindow } from "../../hooks/useModal";
 import type { propsWindowModal } from "../../type/typeBooking";
+import { useBookingStore } from "../../store/storeBooking";
 
-const ModalWindow = ({
-  selectedId,
-  errorMessage,
-  setIsOpening,
-  setErrorMessage,
-}: propsWindowModal) => {
+const ModalWindow = ({ selectedId }: propsWindowModal) => {
   const { formRef, booking, handleChange } = useModalWindow({
     selectedId,
-    setIsOpening,
-    setErrorMessage,
   });
+  const { errorMessage } = useBookingStore();
 
   return (
     <div
